@@ -7,9 +7,13 @@ final structure should be /seq2seq/models/LibriSpeech/AST_walkest1/...
 
 I changed the scripts, so they support utf-8, since this was an issue for me.
 
+In /Walkest1_Code/ all my own scripts are.
 
+Yaafe feature extraction did not work for me, I had to use the pre-processed dataset provided by eske."..The pre-processed corpus (with MFCCs) is available [here](https://drive.google.com/open?id=15ZwzXe_FEx-K7yn6ZVksrUc0QWV072Xt). If you want to use it to train new models, you should extract it as `data/LibriSpeech`. Then, you can train a new model using the configuration files inside `config/LibriSpeech`..."
 
-Yaafe feature extraction did not work for me, I had to use the pre-processed dataset provided by eske.
+Then, to decode a test set using a model, e.g., `AST.1`, do:
+    
+    ./seq2seq.sh  models/LibriSpeech/AST.1/config.yaml  --decode models/LibriSpeech/data/test.npz
 
 -------------End of my Input---------------
 
