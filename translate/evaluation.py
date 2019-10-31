@@ -284,10 +284,10 @@ def tercom_statistics(hypotheses, references, case_sensitive=True, **kwargs):
         if case_sensitive:
             cmd.append('-s')
 
-        output = open('/dev/null', 'w')
+        output = open('/dev/null', 'w', encoding='utf8')
         subprocess.call(cmd, stdout=output, stderr=output)
 
-    with open(filename + '.sum') as f:
+    with open(filename + '.sum', encoding="utf-8") as f:
         fields = ['DEL', 'INS', 'SUB', 'SHIFT', 'WORD_SHIFT', 'ERRORS', 'REF_WORDS', 'TER']
 
         stats = []

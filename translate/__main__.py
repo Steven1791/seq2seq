@@ -77,10 +77,10 @@ def main(args=None):
     args = parser.parse_args(args)
 
     # read config file and default config
-    with open('config/default.yaml') as f:
+    with open('config/default.yaml', encoding="utf-8") as f:
         default_config = utils.AttrDict(yaml.safe_load(f))
 
-    with open(args.config) as f:
+    with open(args.config, encoding="utf-8") as f:
         config = utils.AttrDict(yaml.safe_load(f))
         
         if args.learning_rate is not None:
@@ -121,7 +121,7 @@ def main(args=None):
     # copy config file to model directory
     config_path = os.path.join(config.model_dir, 'config.yaml')
     if args.train and not os.path.exists(config_path):
-        with open(args.config) as config_file, open(config_path, 'w') as dest_file:
+        with open(args.config, encoding="utf-8") as config_file, open(config_path, 'w', encoding='utf-8') as dest_file:
             content = config_file.read()
             content = re.sub(r'model_dir:.*?\n', 'model_dir: {}\n'.format(config.model_dir), content,
                              flags=re.MULTILINE)

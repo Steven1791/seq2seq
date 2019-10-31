@@ -112,7 +112,7 @@ class TranslationModel:
         self.training = utils.AttrDict()  # used to keep track of training
 
         if lexicon:
-            with open(lexicon) as lexicon_file:
+            with open(lexicon, encoding="utf-8") as lexicon_file:
                 self.lexicon = dict(line.split() for line in lexicon_file)
         else:
             self.lexicon = None
@@ -291,7 +291,7 @@ class TranslationModel:
 
         output_file = None
         try:
-            output_file = sys.stdout if output is None else open(output, 'w')
+            output_file = sys.stdout if output is None else open(output, 'w', encoding='utf8')
             paths = self.filenames.test or [None]
             lines = utils.read_lines(paths, binary=self.binary)
 
@@ -311,7 +311,7 @@ class TranslationModel:
                 if raw_output:
                     hypothesis = raw
 
-                output_file.write(hypothesis + '\n')
+                output_file.buffer.write((hypothesis + '\n').encode())    #edited by walkest1: before:output_file.write(hypothesis + '\n')
                 output_file.flush()
         finally:
             if output_file is not None:
@@ -391,7 +391,7 @@ class TranslationModel:
             output_file = None
             try:
                 if output_ is not None:
-                    output_file = open(output_, 'w')
+                    output_file = open(output_, 'w', encoding='utf8')
 
                 hypothesis_iter = self.decode_batch(src_lines, self.batch_size, remove_unk=remove_unk,
                                                     fix_edits=fix_edits, unk_replace=unk_replace)
@@ -599,7 +599,7 @@ class TranslationModel:
         score_filename = os.path.join(self.checkpoint_dir, 'scores.txt')
         # try loading previous scores
         try:
-            with open(score_filename) as f:
+            with open(score_filename, encoding="utf-8") as f:
                 # list of pairs (score, step)
                 scores = [(float(line.split()[0]), int(line.split()[1])) for line in f]
         except IOError:
@@ -645,7 +645,7 @@ class TranslationModel:
         # save scores
         scores.append((score, step))
 
-        with open(score_filename, 'w') as f:
+        with open(score_filename, 'w', encoding='utf8') as f:
             for score_, step_ in scores:
                 f.write('{:.2f} {}\n'.format(score_, step_))
 
@@ -673,7 +673,7 @@ class TranslationModel:
             if encoder_or_decoder.embedding_file:
                 utils.log('loading embeddings from: {}'.format(encoder_or_decoder.embedding_file))
                 embeddings = {}
-                with open(encoder_or_decoder.embedding_file) as embedding_file:
+                with open(encoder_or_decoder.embedding_file, encoding="utf-8") as embedding_file:
                     for line in embedding_file:
                         word, vector = line.split(' ', 1)
                         if word in vocab.vocab:
@@ -694,10 +694,10 @@ class TranslationModel:
                     sess.run(embedding_var.assign(embedding_value))
 
         if whitelist:
-            with open(whitelist) as f:
+            with open(whitelist, encoding="utf-8") as f:
                 whitelist = list(line.strip() for line in f)
         if blacklist:
-            with open(blacklist) as f:
+            with open(blacklist, encoding="utf-8") as f:
                 blacklist = list(line.strip() for line in f)
         else:
             blacklist = []
