@@ -1,7 +1,8 @@
 # seq2seq
 Attention-based sequence to sequence learning
 
----------------My Inpu---------------------
+---------------My Input---------------------
+
 download the Checkpoints to my pretrained model En-Fr from here: 
 https://drive.google.com/drive/folders/14o0PV81vhFxqJGq57xdl7fFJN0eDAoYn?usp=sharing
 
