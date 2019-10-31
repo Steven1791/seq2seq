@@ -150,7 +150,7 @@ def initialize_vocabulary(vocabulary_path):
     """
     if os.path.exists(vocabulary_path):
         rev_vocab = []
-        with open(vocabulary_path) as f:
+        with open(vocabulary_path, encoding="utf-8") as f:  #encoding neccessary, since ä,ö,ü may be read
             rev_vocab.extend(f.readlines())
         rev_vocab = [line.rstrip('\n') for line in rev_vocab]
         vocab = dict([(x, y) for (y, x) in enumerate(rev_vocab)])
@@ -380,7 +380,7 @@ def get_batch_iterator(paths, extensions, vocabs, batch_size, max_size=None, cha
                                        shuffle=shuffle, mode=mode, crash_test=crash_test)
 
     # FIXME: crash test only for first shard
-    with open(paths[-1]) as f:   # count lines
+    with open(paths[-1], encoding="utf-8") as f:   # count lines
         line_count = sum(1 for _ in f)
         debug('total line count: {}'.format(line_count))
 
@@ -449,28 +449,27 @@ def read_binary_features(filename, from_position=None):
     :return: list of arrays of shape (frames, dimension)
     """
     with open(filename, 'rb') as f:
-        lines, dim = np.load(f)
+        lines, dim = np.load(f) # edited by walkest1 and removed again: , allow_pickle=True
         if from_position is not None:
             f.seek(from_position)
 
         for _ in range(lines):
             try:
-                feats = np.load(f)
+                feats = np.load(f) # edited by walkest1, and removed again
                 yield list(feats), f.tell()
             except OSError:
                 pass
-
 
 def read_lines(paths, binary=None):
     binary = binary or [False] * len(paths)
     return zip(*[sys.stdin if path is None else
                  map(operator.itemgetter(0), read_binary_features(path)) if binary_
-                 else open(path)
+                 else open(path, encoding="utf-8")
                  for path, binary_ in zip(paths, binary)])
 
 
 def read_text_from_position(filename, from_position=None):
-    with open(filename) as f:
+    with open(filename, encoding="utf-8") as f:
         if from_position is not None:
             f.seek(from_position)
         while True:
@@ -608,7 +607,7 @@ def alignment_to_text(xlabels=None, ylabels=None, weights=None, output_file=None
     :param weights: numpy array of shape (len(xlabels), len(ylabels))
     :param output_file: write the matrix in this file
     """
-    with open(output_file.replace('svg', 'txt').replace('jpg', 'txt'), 'w') as output_file:
+    with open(output_file.replace('svg', 'txt').replace('jpg', 'txt'), 'w', encoding='utf8') as output_file:
         output_file.write(' \t' + '\t'.join(xlabels) + '\n')
         for i in range(len(ylabels)):
             output_file.write(ylabels[i])
