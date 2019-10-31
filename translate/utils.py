@@ -150,7 +150,7 @@ def initialize_vocabulary(vocabulary_path):
     """
     if os.path.exists(vocabulary_path):
         rev_vocab = []
-        with open(vocabulary_path, encoding="utf-8") as f:  #encoding neccessary, since ä,ö,ü may be read
+        with open(vocabulary_path, encoding="utf-8") as f:  #encoding neccessary, since é,è,à etc. are present
             rev_vocab.extend(f.readlines())
         rev_vocab = [line.rstrip('\n') for line in rev_vocab]
         vocab = dict([(x, y) for (y, x) in enumerate(rev_vocab)])
