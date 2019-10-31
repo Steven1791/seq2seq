@@ -2,8 +2,8 @@
 Attention-based sequence to sequence learning
 
 ---------------My Inpu---------------------
-download my pretrained model En-Fr from here: https://drive.google.com/drive/folders/14o0PV81vhFxqJGq57xdl7fFJN0eDAoYn?usp=sharing
-final structure should be /seq2seq/models/LibriSpeech/AST_walkest1/...
+download the Checkpoints to my pretrained model En-Fr from here: 
+https://drive.google.com/drive/folders/14o0PV81vhFxqJGq57xdl7fFJN0eDAoYn?usp=sharing
 
 I changed the scripts, so they support utf-8, since this was an issue for me.
 
